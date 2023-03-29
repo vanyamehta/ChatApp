@@ -1,7 +1,6 @@
 package com.example.chatengine.Login
 
 import android.annotation.SuppressLint
-import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
@@ -14,7 +13,6 @@ import com.example.chatengine.addMember.NewMemberAPI
 import com.example.chatengine.addMember.NewMemberClass
 import com.example.chatengine.typingStatus.TypingAPI
 import com.example.chatengine.typingStatus.TypingClass
-import com.example.chatengine.typingStatus.TypingDataclass
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -60,23 +58,35 @@ open class LoginViewModel:ViewModel() {
         return roomapi
     }
 
-     var chatid= mutableStateOf("")
-     var accesskey= mutableStateOf("")
+//     var chatid by mutableStateOf(-1)
+//     var accesskey= mutableStateOf("")
 
 
     var text by mutableStateOf("")
     var firsttext = ChattingDataModel("")
     var textdata: ChattingDataModel? by mutableStateOf(firsttext)
+//
+//    fun StartChat():ChattingAPI{
+//        val msgApiService =MainChattingClass(user_name.value,password.value,chatid).postChatInstance()
+//        return msgApiService
+//    }
 
     fun StartChat():ChattingAPI{
-        val msgApiService =MainChattingClass(user_name.value,password.value,chatid.value,accesskey.value).postChatInstance()
+        val msgApiService =MainChattingClass(user_name.value,password.value).postChatInstance()
         return msgApiService
     }
 
+
+
     var msghis: MutableList<AllMsgDataClass> by mutableStateOf(mutableListOf())
 
+//    fun msgHistory():ChattingAPI{
+//        val chatapi = MsgSending(user_name.value,password.value,chatid).seeChatInstance()
+//        return chatapi
+//    }
+
     fun msgHistory():ChattingAPI{
-        val chatapi = MsgSending(user_name.value,password.value,chatid.value).seeChatInstance()
+        val chatapi = MsgSending(user_name.value,password.value).seeChatInstance()
         return chatapi
     }
 
@@ -103,8 +113,13 @@ open class LoginViewModel:ViewModel() {
     val istypinguser= mutableStateOf("")
 
     @SuppressLint("SuspiciousIndentation")
+//    fun IsUserTyping(): TypingAPI {
+//        val apiService= TypingClass(user_name.value,password.value,chatid).getTypingInstance()
+//        return apiService
+//    }
+
     fun IsUserTyping(): TypingAPI {
-        val apiService= TypingClass(user_name.value,password.value,chatid.toString()).getTypingInstance()
+        val apiService= TypingClass(user_name.value,password.value,153483).getTypingInstance()
         return apiService
     }
     fun starttyping(){

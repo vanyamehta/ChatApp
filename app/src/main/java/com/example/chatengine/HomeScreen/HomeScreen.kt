@@ -116,8 +116,8 @@ fun HomeScreen(
                                 .padding(bottom = 5.dp)
                                 .background(Color.Black)
                                 .clickable(onClick = {
-                                    loginViewModel.chatid.value = item.id
-                                    loginViewModel.accesskey.value = item.access_key
+//                                    loginViewModel.chatid = item.id
+//                                    loginViewModel.accesskey.value = item.access_key
                                     onChatClick()
                                     loginViewModel.isLoading.value = true
                                     SeenChat(ctx, result, loginViewModel)

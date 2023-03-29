@@ -1,6 +1,7 @@
 package com.example.chatengine.MainChat
 
 
+import androidx.compose.runtime.MutableState
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Call
@@ -19,7 +20,11 @@ interface ChattingAPI {
     fun getMsg(): Call<List<AllMsgDataClass>?>?
 }
 
-class MainChattingClass(username:String,password:String,val chatid:String,val accesskey:String){
+class MainChattingClass(
+    username:String,
+    password:String,
+    //val chatid: Int,
+    ){
     val username= username
     val password= password
     fun postChatInstance(): ChattingAPI {
@@ -38,7 +43,7 @@ class MainChattingClass(username:String,password:String,val chatid:String,val ac
             }
             .build()
         val chatAPI= Retrofit.Builder()
-            .baseUrl("https://api.chatengine.io/chats/$chatid/")
+            .baseUrl("https://api.chatengine.io/chats/153483/")
             .client(httpClient)
             .addConverterFactory(GsonConverterFactory.create())
             .build().create(ChattingAPI::class.java)
@@ -46,7 +51,11 @@ class MainChattingClass(username:String,password:String,val chatid:String,val ac
     }
 }
 
-class MsgSending(username:String,password: String,val chatid:String){
+class MsgSending(
+    username:String,
+    password: String,
+    //val chatid:Int
+    ){
     val username= username
     val password= password
     fun seeChatInstance(): ChattingAPI {
@@ -65,7 +74,7 @@ class MsgSending(username:String,password: String,val chatid:String){
             }
             .build()
         val chatAPI= Retrofit.Builder()
-            .baseUrl("https://api.chatengine.io/chats/$chatid/")
+            .baseUrl("https://api.chatengine.io/chats/153483/")
             .client(httpClient)
             .addConverterFactory(GsonConverterFactory.create())
             .build().create(ChattingAPI::class.java)

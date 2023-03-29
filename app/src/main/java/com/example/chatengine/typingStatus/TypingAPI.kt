@@ -13,7 +13,7 @@ interface TypingAPI {
     fun typing(): Call<TypingDataclass>
 }
 
-class TypingClass(val username:String, val password:String,val chatId:String) {
+class TypingClass(val username:String, val password:String, val chatId: Int) {
 
 
     fun getTypingInstance(): TypingAPI {
@@ -26,7 +26,7 @@ class TypingClass(val username:String, val password:String,val chatId:String) {
             .addInterceptor(loggingInterceptor)
             .addInterceptor { chain ->
                 val request = chain.request().newBuilder()
-                    .addHeader("Project-ID", "52690bdb-3b85-4b96-9081-27fa9b4dc10e")
+                    .addHeader("Project-ID", "bcf0bb7d-c035-4a42-a5c9-4a3d0dba0416")
                     .addHeader("User-Name", username)
                     .addHeader("User-Secret", password)
                     .build()

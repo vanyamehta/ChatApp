@@ -12,7 +12,9 @@ class WebSocketManager(private val loginViewModel: LoginViewModel):WebSocketList
     private var webSocket: WebSocket
 
     init {
-        val request = Request.Builder().url("wss://api.chatengine.io/chat/?projectID=bcf0bb7d-c035-4a42-a5c9-4a3d0dba0416&chatID=${loginViewModel.chatid}&accessKey=${loginViewModel.accesskey}").build()
+        //val request = Request.Builder().url("wss://api.chatengine.io/chat/?projectID=bcf0bb7d-c035-4a42-a5c9-4a3d0dba0416&chatID=${loginViewModel.chatid}&accessKey=${loginViewModel.accesskey}").build()
+
+        val request = Request.Builder().url("wss://api.chatengine.io/chat/?projectID=bcf0bb7d-c035-4a42-a5c9-4a3d0dba0416&chatID=153483&accessKey=ca-e64ff7cf-f914-4c9a-a3bf-ef2bf22d7e13").build()
         val client = OkHttpClient()
         webSocket = client.newWebSocket(request, this)
     }
@@ -56,7 +58,9 @@ class WebSocketManager(private val loginViewModel: LoginViewModel):WebSocketList
             Log.d("MYTAG", "WebSocket failure: Broken pipe")
             // Reconnect the WebSocket here
             val request = Request.Builder()
+
                 .url("wss://api.chatengine.io/chat/?projectID=bcf0bb7d-c035-4a42-a5c9-4a3d0dba0416&chatID=153483&accessKey=ca-e64ff7cf-f914-4c9a-a3bf-ef2bf22d7e13")
+                //.url("wss://api.chatengine.io/chat/?projectID=bcf0bb7d-c035-4a42-a5c9-4a3d0dba0416&chatID=${loginViewModel.chatid}&accessKey=${loginViewModel.accesskey}")
                 .build()
             val client = OkHttpClient()
             this.webSocket = client.newWebSocket(request, this)
