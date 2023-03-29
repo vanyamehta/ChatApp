@@ -25,19 +25,19 @@ import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.example.chatengine.Login.LoginViewModel
-import com.example.chatengine.Login.getUserData
+import com.example.chatengine.MainViewModel.MainViewModel
+import com.example.chatengine.Login.LoginFunction
 
 @Composable
 fun Login(
     onNavigateToHome: () -> Unit,
-    loginViewModel: LoginViewModel,
+    mainViewModel: MainViewModel,
     sharedPreferences: SharedPreferences,
     onsignUpClick: () -> Unit
 ) {
-    var userName = loginViewModel.user_name
+    var userName = mainViewModel.user_name
 
-    var password = loginViewModel.password
+    var password = mainViewModel.password
     var secret = remember {
         mutableStateOf("")
     }
@@ -53,9 +53,9 @@ fun Login(
     println("*** $email")
 
     if (email.isNotBlank()){
-        loginViewModel.user_name.value = email
-        loginViewModel.password.value = secrett
-        getUserData(ctx,email,secrett,result,secret,onNavigateToHome,loginViewModel,sharedPreferences)
+        mainViewModel.user_name.value = email
+        mainViewModel.password.value = secrett
+        LoginFunction(ctx,email,secrett,result,secret,onNavigateToHome,mainViewModel,sharedPreferences)
     }
     else {
     Box(modifier = Modifier.fillMaxSize()) {
@@ -124,15 +124,15 @@ fun Login(
             },
             singleLine = true,
         )
-        loginViewModel.user_name=userName
-        loginViewModel.password=password
+        mainViewModel.user_name=userName
+        mainViewModel.password=password
         TextButton(onClick = {}, modifier = Modifier.align(Alignment.End)) {
             Text(text = "Forgot Password")
 
         }
         Column(horizontalAlignment = Alignment.CenterHorizontally) {
             Button(onClick = {
-                getUserData(ctx,userName.value,password.value, result,secret, { onNavigateToHome() },loginViewModel,sharedPreferences)
+                LoginFunction(ctx,userName.value,password.value, result,secret, { onNavigateToHome() },mainViewModel,sharedPreferences)
             }, modifier = Modifier.fillMaxWidth()) {
                 Text(text = "Login")
             }

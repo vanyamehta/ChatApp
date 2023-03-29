@@ -3,7 +3,6 @@ package com.example.chatengine.HomeScreen
 import android.annotation.SuppressLint
 import android.content.Context
 import android.widget.Toast
-
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
@@ -17,23 +16,18 @@ import androidx.compose.material.icons.filled.Send
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.TextStyle
-
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.navigation.NavController
-import androidx.navigation.NavHostController
-import androidx.navigation.compose.rememberNavController
-import com.example.chatengine.Login.LoginViewModel
-import com.example.chatengine.MainChat.SendChat
+import com.example.chatengine.MainViewModel.MainViewModel
 import com.example.chatengine.R
+import com.example.chatengine.SendMsgs.SendMsgFunction
 import com.example.chatengine.WebSocket.WebSocketManager
-import com.example.chatengine.typingStatus.TypingDataclass
+import com.example.chatengine.typing.typingDataclass
 import com.example.chatengine.ui.theme.*
 import retrofit2.Call
 import retrofit2.Callback
@@ -42,7 +36,7 @@ import retrofit2.Response
 
 @SuppressLint("UnusedMaterialScaffoldPaddingParameter")
 @Composable
-fun ChatScreen(loginViewModel: LoginViewModel, webSocketManager: WebSocketManager,onClickGoBack:()->Unit) {
+fun ChatScreen(mainViewModel: MainViewModel, webSocketManager: WebSocketManager, onClickGoBack:()->Unit) {
 
     var chat by remember {
         mutableStateOf("")
@@ -53,7 +47,7 @@ fun ChatScreen(loginViewModel: LoginViewModel, webSocketManager: WebSocketManage
     }
     var ctx:Context= LocalContext.current
 
-    val messageListState = loginViewModel.messageList.collectAsState()
+    val messageListState = mainViewModel.messageList.collectAsState()
     val messageList = messageListState.value
     
     Text(text = messageList.size.toString())
@@ -62,9 +56,9 @@ fun ChatScreen(loginViewModel: LoginViewModel, webSocketManager: WebSocketManage
     Scaffold(topBar = {
         TopAppBar(
             title = {
-                if(loginViewModel.istyping.value&&loginViewModel.user_name.value!=loginViewModel.istypinguser.value){
+                if(mainViewModel.istyping.value&&mainViewModel.user_name.value!=mainViewModel.istypinguser.value){
                     Text(text = " is typing")
-                    loginViewModel.starttyping()
+                    mainViewModel.starttyping()
 //                    isTYping=false
                 }else{
                 Text("user1") }
@@ -90,8 +84,8 @@ fun ChatScreen(loginViewModel: LoginViewModel, webSocketManager: WebSocketManage
                     .height(600.dp),
                 reverseLayout = true
             ){
-                itemsIndexed(loginViewModel.msghis.sortedByDescending { it.created }){index, item ->
-                    var user = item.sender_username==loginViewModel.user_name.value
+                itemsIndexed(mainViewModel.msghis.sortedByDescending { it.created }){ index, item ->
+                    var user = item.sender_username==mainViewModel.user_name.value
                     val msgBg= if(user) UserChat else AgentChat
                     val textBg = if(user) Color.Black else Color.Black
                     val time= item.created.substring(10,16)
@@ -149,14 +143,14 @@ fun ChatScreen(loginViewModel: LoginViewModel, webSocketManager: WebSocketManage
                     value = chat ,
                     onValueChange ={
                         chat=it
-                        IsTypingHelpingFunction(ctx,loginViewModel)
+                        IsTypingHelpingFunction(ctx,mainViewModel)
                                    },
                     shape = RoundedCornerShape(10.dp)
                 )
 
                 IconButton(onClick = {
                     webSocketManager.sendMessage(chat)
-                    SendChat(ctx,chat,result,loginViewModel)
+                    SendMsgFunction(ctx,chat,result,mainViewModel)
                     chat=""
                 }) {
                     Icon(Icons.Default.Send, contentDescription ="send Button", modifier = Modifier
@@ -167,7 +161,7 @@ fun ChatScreen(loginViewModel: LoginViewModel, webSocketManager: WebSocketManage
             }
 
         }
-    if(loginViewModel.isLoading.value==true){
+    if(mainViewModel.isLoading.value==true){
         LoadingView()
     }
     }
@@ -185,19 +179,19 @@ fun LoadingView() {
 
 fun IsTypingHelpingFunction(
     context: Context,
-    loginViewModel: LoginViewModel
+    mainViewModel: MainViewModel
 )
 {
-    val retrofitAPI= loginViewModel.IsUserTyping()
-    val call: Call<TypingDataclass> = retrofitAPI.typing()
-    call!!.enqueue(object : Callback<TypingDataclass?> {
-        override fun onResponse(call: Call<TypingDataclass?>, response: Response<TypingDataclass?>) {
-            val model: TypingDataclass? = response.body()
+    val retrofitAPI= mainViewModel.IsUserTyping()
+    val call: Call<typingDataclass> = retrofitAPI.typing()
+    call!!.enqueue(object : Callback<typingDataclass?> {
+        override fun onResponse(call: Call<typingDataclass?>, response: Response<typingDataclass?>) {
+            val model: typingDataclass? = response.body()
             val resp =
                 "Response Code : " + response.code()
 //            loginViewModel.result=resp
         }
-        override fun onFailure(call: Call<TypingDataclass?>, t: Throwable) {
+        override fun onFailure(call: Call<typingDataclass?>, t: Throwable) {
             var temp = "Error found is : " + t.message
             Toast.makeText(context,temp, Toast.LENGTH_SHORT).show()
         }

@@ -5,8 +5,8 @@ import retrofit2.Call
 import retrofit2.http.Body
 import retrofit2.http.POST
 
-interface RetrofitAPI {
+interface SignUpAPI {
 
     @POST("users/")
-    fun postData(@Body dataModel: DataModel?) : Call<DataModel?>?
+    fun postData(@Body signUpDataClass: SignUpDataClass?) : Call<SignUpDataClass?>?
 }

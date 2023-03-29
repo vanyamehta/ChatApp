@@ -1,5 +1,4 @@
-package com.example.chatengine.addMember
-
+package com.example.chatengine.CreateRoom
 
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
@@ -9,17 +8,16 @@ import retrofit2.converter.gson.GsonConverterFactory
 import retrofit2.http.Body
 import retrofit2.http.POST
 
-interface NewMemberAPI {
+interface CreateRoomAPI {
 
-    @POST("people/")
-    fun addMember(@Body datamodel:AddMemberDataClass?) : Call<AddMemberDataClass?>?
+    @POST("chats/")
+    fun createUser(@Body dataModel : CreateRoomDataClass?) : Call<CreateRoomDataClass?>?
 }
 
-
-class NewMemberClass(username:String,password:String,var membername:String){
+class CreateRoomClass(username:String, password:String){
     val username= username
     val password= password
-    fun memberInstance(): NewMemberAPI {
+    fun CreateRoomInstance():CreateRoomAPI{
         val loggingInterceptor= HttpLoggingInterceptor()
         loggingInterceptor.setLevel(HttpLoggingInterceptor.Level.BODY)
 
@@ -35,10 +33,11 @@ class NewMemberClass(username:String,password:String,var membername:String){
             }
             .build()
         val chatAPI= Retrofit.Builder()
-            .baseUrl("https://api.chatengine.io/chats/{$membername}/")
+            .baseUrl("https://api.chatengine.io/")
             .client(httpClient)
             .addConverterFactory(GsonConverterFactory.create())
-            .build().create(NewMemberAPI::class.java)
+            .build().create(CreateRoomAPI::class.java)
         return chatAPI
     }
 }
+

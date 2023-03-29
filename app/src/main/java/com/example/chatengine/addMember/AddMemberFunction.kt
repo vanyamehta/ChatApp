@@ -3,8 +3,7 @@ package com.example.chatengine.addMember
 import android.content.Context
 import android.widget.Toast
 import androidx.compose.runtime.MutableState
-import com.example.chatengine.HomeScreen.ChatDataModel
-import com.example.chatengine.Login.LoginViewModel
+import com.example.chatengine.MainViewModel.MainViewModel
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -15,10 +14,10 @@ fun AddMember(
     result: MutableState<String>,
     //secret: MutableState<String>,
     //onChatClick:()->Unit,
-    loginViewModel: LoginViewModel
+    mainViewModel: MainViewModel
 ) {
 
-    val memberAPI = loginViewModel.memberData()
+    val memberAPI = mainViewModel.memberData()
     val Chat = AddMemberDataClass(username.toString())
     val call: Call<AddMemberDataClass?>? = memberAPI.addMember(Chat)
     call!!.enqueue(object : Callback<AddMemberDataClass?> {
@@ -28,7 +27,7 @@ fun AddMember(
             val resp =
                 "Response Code : " + response.code() + "\n" + "User Name : " + model?.username
             result.value = resp
-            loginViewModel.MemberData = model
+            mainViewModel.MemberData = model
 //            if(model?.is_direct_chat==true){
 //                onChatClick()
 //            }

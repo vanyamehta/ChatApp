@@ -12,7 +12,7 @@ import retrofit2.Response
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 
-fun postDataUsingAPI(
+fun SignUpFunction(
     ctx: Context,
     userName: MutableState<TextFieldValue>,
     firstName: MutableState<TextFieldValue>,
@@ -43,19 +43,19 @@ fun postDataUsingAPI(
         .client(okHttpClient)
         .addConverterFactory(GsonConverterFactory.create())
         .build()
-    val retrofitAPI = retrofit.create(RetrofitAPI::class.java)
-    val dataModel = DataModel(userName.value.text, firstName.value.text,lastName.value.text,password.value.text)
-    val call: Call<DataModel?>? = retrofitAPI.postData(dataModel)
-    call!!.enqueue(object : Callback<DataModel?> {
-        override fun onResponse(call: Call<DataModel?>?, response: Response<DataModel?>) {
-            Toast.makeText(ctx, "Data posted to API", Toast.LENGTH_SHORT).show()
-            val model: DataModel? = response.body()
+    val signUpAPI = retrofit.create(SignUpAPI::class.java)
+    val signUpDataClass = SignUpDataClass(userName.value.text, firstName.value.text,lastName.value.text,password.value.text)
+    val call: Call<SignUpDataClass?>? = signUpAPI.postData(signUpDataClass)
+    call!!.enqueue(object : Callback<SignUpDataClass?> {
+        override fun onResponse(call: Call<SignUpDataClass?>?, response: Response<SignUpDataClass?>) {
+            Toast.makeText(ctx, "SignUp Successful", Toast.LENGTH_SHORT).show()
+            val model: SignUpDataClass? = response.body()
             val resp =
                 "Response Code : " + response.code() + "\n" + "User Name : " + model!!.username + "\n" + "Job : " + model!!.first_name
             result.value = resp
         }
 
-        override fun onFailure(call: Call<DataModel?>?, t: Throwable) {
+        override fun onFailure(call: Call<SignUpDataClass?>?, t: Throwable) {
             result.value = "Error found is : " + t.message
         }
     })

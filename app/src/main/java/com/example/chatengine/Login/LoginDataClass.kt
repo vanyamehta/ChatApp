@@ -1,6 +1,6 @@
 package com.example.chatengine.Login
 
-data class LoginDataModel(
+data class LoginDataClass(
     val avatar:Any,
     val username: String,
     val first_name: String,

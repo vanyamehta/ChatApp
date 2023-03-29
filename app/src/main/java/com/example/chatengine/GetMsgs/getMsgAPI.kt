@@ -1,25 +1,30 @@
-package com.example.chatengine.addMember
+package com.example.chatengine.MainChat
 
 
+import com.example.chatengine.GetMsgs.getMsgDataClass
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Call
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
-import retrofit2.http.Body
-import retrofit2.http.POST
+import retrofit2.http.GET
 
-interface NewMemberAPI {
 
-    @POST("people/")
-    fun addMember(@Body datamodel:AddMemberDataClass?) : Call<AddMemberDataClass?>?
+interface getMsgAPI {
+
+
+    @GET("messages/")
+    fun getMsg(): Call<List<getMsgDataClass>?>?
+
 }
 
-
-class NewMemberClass(username:String,password:String,var membername:String){
+class getMsgClass(
+    username:String,
+    password: String,
+    ){
     val username= username
     val password= password
-    fun memberInstance(): NewMemberAPI {
+    fun getMsgInstance(): getMsgAPI {
         val loggingInterceptor= HttpLoggingInterceptor()
         loggingInterceptor.setLevel(HttpLoggingInterceptor.Level.BODY)
 
@@ -35,10 +40,11 @@ class NewMemberClass(username:String,password:String,var membername:String){
             }
             .build()
         val chatAPI= Retrofit.Builder()
-            .baseUrl("https://api.chatengine.io/chats/{$membername}/")
+            .baseUrl("https://api.chatengine.io/chats/153483/")
             .client(httpClient)
             .addConverterFactory(GsonConverterFactory.create())
-            .build().create(NewMemberAPI::class.java)
+            .build().create(getMsgAPI::class.java)
         return chatAPI
     }
+
 }

@@ -1,14 +1,14 @@
 package com.example.chatengine.WebSocket
 
 import android.util.Log
-import com.example.chatengine.Login.LoginViewModel
-import com.example.chatengine.MainChat.AllMsgDataClass
+import com.example.chatengine.MainViewModel.MainViewModel
+import com.example.chatengine.GetMsgs.getMsgDataClass
 import com.google.gson.Gson
 import okhttp3.*
 import org.json.JSONObject
 import java.net.SocketException
 
-class WebSocketManager(private val loginViewModel: LoginViewModel):WebSocketListener(){
+class WebSocketManager(private val mainViewModel: MainViewModel):WebSocketListener(){
     private var webSocket: WebSocket
 
     init {
@@ -31,21 +31,21 @@ class WebSocketManager(private val loginViewModel: LoginViewModel):WebSocketList
 
         if (action == "new_message") {
             val message = json.getJSONObject("data").getJSONObject("message")
-            val receivedMessage = AllMsgDataClass(
+            val receivedMessage = getMsgDataClass(
                 text = message.getString("text"),
                 created = message.getString("created"),
                 sender_username = message.getString("sender_username")
             )
 
-            loginViewModel.updateMessageList((loginViewModel.messageList.value + message) as List<AllMsgDataClass>)
-            loginViewModel.webList(receivedMessage)
+            mainViewModel.updateMessageList((mainViewModel.messageList.value + message) as List<getMsgDataClass>)
+            mainViewModel.webList(receivedMessage)
             Log.d("MYTAG", "onMessage: $receivedMessage ")
         }
         if (action =="is_typing") {
             val data=json.getJSONObject("data")
             val name=data.getString("person")
-            loginViewModel.istyping.value=true
-            loginViewModel.istypinguser.value= name.toString()
+            mainViewModel.istyping.value=true
+            mainViewModel.istypinguser.value= name.toString()
         }
     }
 

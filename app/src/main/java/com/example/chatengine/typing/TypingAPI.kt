@@ -1,4 +1,4 @@
-package com.example.chatengine.typingStatus
+package com.example.chatengine.typing
 
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
@@ -10,7 +10,7 @@ import retrofit2.http.POST
 interface TypingAPI {
 
     @POST("typing/")
-    fun typing(): Call<TypingDataclass>
+    fun typing(): Call<typingDataclass>
 }
 
 class TypingClass(val username:String, val password:String, val chatId: Int) {

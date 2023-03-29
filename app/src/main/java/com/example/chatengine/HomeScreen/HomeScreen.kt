@@ -27,9 +27,9 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.example.chatengine.Login.LoginViewModel
+import com.example.chatengine.MainViewModel.MainViewModel
 import com.example.chatengine.MainActivity
-import com.example.chatengine.MainChat.SeenChat
+import com.example.chatengine.MainChat.getMsgFunction
 
 import com.example.chatengine.ui.theme.Purple200
 import com.example.chatengine.ui.theme.UserChat
@@ -39,12 +39,12 @@ import com.example.chatengine.ui.theme.UserChat
 @Composable
 fun HomeScreen(
     onChatClick: () -> Unit,
-    loginViewModel: LoginViewModel,
+    mainViewModel: MainViewModel,
     sharedPreferences: SharedPreferences
 ) {
     var ctx : Context = LocalContext.current
 
-    getAllRooms(ctx,loginViewModel)
+    getAllRooms(ctx,mainViewModel)
     val editor: SharedPreferences.Editor = sharedPreferences.edit()
 
     var result = remember {
@@ -83,7 +83,7 @@ fun HomeScreen(
             )
         },
         floatingActionButton = {
-            MyFloatingActionButton(loginViewModel)
+            MyFloatingActionButton(mainViewModel)
         }
     ) {
         Box(
@@ -107,7 +107,7 @@ fun HomeScreen(
                         .height(600.dp),
 
                     ) {
-                    itemsIndexed(loginViewModel.allmsgRooms) { index, item ->
+                    itemsIndexed(mainViewModel.allmsgRooms) { index, item ->
                         val time= item.created.substring(10,16)
                         Card(
                             modifier = Modifier
@@ -116,11 +116,11 @@ fun HomeScreen(
                                 .padding(bottom = 5.dp)
                                 .background(Color.Black)
                                 .clickable(onClick = {
-//                                    loginViewModel.chatid = item.id
-//                                    loginViewModel.accesskey.value = item.access_key
+//                                    mainViewModel.chatid = item.id
+//                                    mainViewModel.accesskey.value = item.access_key
                                     onChatClick()
-                                    loginViewModel.isLoading.value = true
-                                    SeenChat(ctx, result, loginViewModel)
+                                    mainViewModel.isLoading.value = true
+                                    getMsgFunction(ctx, mainViewModel)
                                 }),
                             shape = RoundedCornerShape(10.dp)
                         ) {

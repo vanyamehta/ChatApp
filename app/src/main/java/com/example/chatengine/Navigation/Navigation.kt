@@ -12,20 +12,20 @@ import com.example.chatengine.HomeScreen.ChatScreen
 import com.example.chatengine.HomeScreen.HomeScreen
 import com.example.chatengine.HomeScreen.Login
 import com.example.chatengine.HomeScreen.SignUp
-import com.example.chatengine.Login.LoginViewModel
+import com.example.chatengine.MainViewModel.MainViewModel
 import com.example.chatengine.WebSocket.WebSocketManager
 
 @Composable
 fun MyNav(sharedPreferences: SharedPreferences,navController: NavHostController= rememberNavController()) {
-    val loginViewModel:LoginViewModel= viewModel()
-    val webSocketManager= WebSocketManager(loginViewModel)
+    val mainViewModel: MainViewModel = viewModel()
+    val webSocketManager= WebSocketManager(mainViewModel)
 
     NavHost(navController = navController, startDestination = "login_screen" ){
         composable(route="login_screen"){
             Login(
                 onNavigateToHome = {
                     navController.navigate("home_screen")
-                },loginViewModel,sharedPreferences
+                },mainViewModel,sharedPreferences
             ) {
                 navController.navigate("sign_screen")
             }
@@ -34,7 +34,7 @@ fun MyNav(sharedPreferences: SharedPreferences,navController: NavHostController=
             HomeScreen(
                     onChatClick={
                 navController.navigate("chatting_screen")
-            }, loginViewModel,sharedPreferences
+            }, mainViewModel,sharedPreferences
             )
         }
         composable(route="sign_screen"){
@@ -47,7 +47,7 @@ fun MyNav(sharedPreferences: SharedPreferences,navController: NavHostController=
         }
         composable(route="chatting_screen"){
             ChatScreen(
-                loginViewModel,
+                mainViewModel,
                 webSocketManager,
                 onClickGoBack={
                     navController.navigate("home_screen")

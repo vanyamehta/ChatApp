@@ -5,28 +5,29 @@ import android.content.SharedPreferences
 import android.widget.Toast
 import androidx.compose.runtime.MutableState
 import com.example.chatengine.HomeScreen.getAllRooms
+import com.example.chatengine.MainViewModel.MainViewModel
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 
-fun getUserData(
+fun LoginFunction(
     ctx: Context,
     username:String,
     password:String,
     result: MutableState<String>,
     secret: MutableState<String>,
     onNavigateToHome: () -> Unit,
-    viewModel: LoginViewModel,
+    viewModel: MainViewModel,
     sharedPreferences: SharedPreferences
 ) {
 
     val editor: SharedPreferences.Editor = sharedPreferences.edit()
     val GetAPI= viewModel.AuthenticateUser()
-    val call: Call<LoginDataModel?>? = GetAPI.getUser()
-    call!!.enqueue(object : Callback<LoginDataModel?> {
-        override fun onResponse(call: Call<LoginDataModel?>, response: Response<LoginDataModel?>) {
+    val call: Call<LoginDataClass?>? = GetAPI.getUser()
+    call!!.enqueue(object : Callback<LoginDataClass?> {
+        override fun onResponse(call: Call<LoginDataClass?>, response: Response<LoginDataClass?>) {
             Toast.makeText(ctx, "Login Successful", Toast.LENGTH_SHORT).show()
-            val model: LoginDataModel? = response.body()
+            val model: LoginDataClass? = response.body()
             val resp =
                 "Response Code : " + response.code() + "\n" + "User Name : " + model?.is_authenticated + "\n" + "Job : " + model?.username
             result.value = resp
@@ -43,7 +44,7 @@ fun getUserData(
             }
         }
 
-        override fun onFailure(call: Call<LoginDataModel?>, t: Throwable) {
+        override fun onFailure(call: Call<LoginDataClass?>, t: Throwable) {
             result.value = "Error found is : " + t.message
         }
     })

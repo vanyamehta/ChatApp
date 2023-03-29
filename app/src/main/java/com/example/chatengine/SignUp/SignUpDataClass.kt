@@ -1,6 +1,6 @@
 package com.example.chatengine.SignUp
 
-data class DataModel(
+data class SignUpDataClass(
     val username: String,
     val first_name: String,
     val last_name: String,

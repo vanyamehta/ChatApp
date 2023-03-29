@@ -27,7 +27,7 @@ import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.example.chatengine.SignUp.postDataUsingAPI
+import com.example.chatengine.SignUp.SignUpFunction
 import com.example.chatengine.R
 
 @Composable
@@ -160,7 +160,7 @@ fun SignUpHeader(
         Column(horizontalAlignment = Alignment.CenterHorizontally) {
             Button(
                 onClick = {
-                    postDataUsingAPI(
+                    SignUpFunction(
                         ctx,userName,firstName,lastName,password,response
                     )
                     Toast.makeText(ctx,"SignUp Successful",Toast.LENGTH_SHORT).show()

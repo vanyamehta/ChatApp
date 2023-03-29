@@ -6,10 +6,11 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
 import androidx.compose.runtime.*
 import androidx.compose.ui.platform.LocalContext
-import com.example.chatengine.Login.LoginViewModel
+import com.example.chatengine.CreateRoom.CreateRoomFunction
+import com.example.chatengine.MainViewModel.MainViewModel
 
 @Composable
-fun MyFloatingActionButton(loginViewModel: LoginViewModel) {
+fun MyFloatingActionButton(mainViewModel: MainViewModel) {
     var showDialog by remember { mutableStateOf(false) }
     var text by remember { mutableStateOf("") }
     var result = remember {
@@ -37,7 +38,7 @@ fun MyFloatingActionButton(loginViewModel: LoginViewModel) {
                 Button(
                     onClick = {
                         // Do something with the text
-                        postChat(ctx,text, result,loginViewModel)
+                        CreateRoomFunction(ctx,text, result,mainViewModel)
                         showDialog = false
                     }
                 ) {

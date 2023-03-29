@@ -5,13 +5,12 @@ import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Call
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
-import retrofit2.http.Body
 import retrofit2.http.GET
 
-interface GetAPI {
+interface LoginAPI {
 
     @GET("me/")
-    fun getUser() : Call<LoginDataModel?>?
+    fun getUser() : Call<LoginDataClass?>?
 }
 
 class LoginClass(username:String,password:String){
@@ -19,7 +18,7 @@ class LoginClass(username:String,password:String){
     val password=password
     val url = "https://api.chatengine.io/users/"
 
-    fun getInstance():GetAPI {
+    fun LoginInstance():LoginAPI {
         val loggingInterceptor = HttpLoggingInterceptor()
         loggingInterceptor.setLevel(HttpLoggingInterceptor.Level.BODY)
         val httpClient = OkHttpClient.Builder()
@@ -38,7 +37,7 @@ class LoginClass(username:String,password:String){
             .baseUrl(url)
             .client(httpClient)
             .addConverterFactory(GsonConverterFactory.create())
-            .build().create(GetAPI::class.java)
+            .build().create(LoginAPI::class.java)
         return retrofit
 
 
