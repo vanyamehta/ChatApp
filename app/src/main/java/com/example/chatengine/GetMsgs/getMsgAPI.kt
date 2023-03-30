@@ -1,6 +1,7 @@
 package com.example.chatengine.MainChat
 
 
+import androidx.compose.runtime.MutableState
 import com.example.chatengine.GetMsgs.getMsgDataClass
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
@@ -19,8 +20,9 @@ interface getMsgAPI {
 }
 
 class getMsgClass(
-    username:String,
+    username: String,
     password: String,
+     val chatid: Int,
     ){
     val username= username
     val password= password
@@ -40,7 +42,7 @@ class getMsgClass(
             }
             .build()
         val chatAPI= Retrofit.Builder()
-            .baseUrl("https://api.chatengine.io/chats/153483/")
+            .baseUrl("https://api.chatengine.io/chats/$chatid/")
             .client(httpClient)
             .addConverterFactory(GsonConverterFactory.create())
             .build().create(getMsgAPI::class.java)

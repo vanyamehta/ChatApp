@@ -5,6 +5,7 @@ import android.content.SharedPreferences
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
+import androidx.activity.viewModels
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Surface
@@ -14,15 +15,28 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.lifecycle.lifecycleScope
 import com.example.chatengine.HomeScreen.HomeScreen
 import com.example.chatengine.Navigation.MyNav
+import com.example.chatengine.QuestionRoom.QuestionListing
+import com.example.chatengine.QuestionRoom.QuestionViewModel
+import com.example.chatengine.QuestionRoom.SubQuestion
 
 import com.example.chatengine.ui.theme.ChatEngineTheme
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 
 
 class MainActivity : ComponentActivity() {
     lateinit var sharedPreferences: SharedPreferences
+    val questionViewModel by viewModels<QuestionViewModel>()
     override fun onCreate(savedInstanceState: Bundle?) {
+        lifecycleScope.launch {
+            withContext(Dispatchers.IO){
+                QuestionListing(questionViewModel)
+            }
+        }
         super.onCreate(savedInstanceState)
         setContent {
             ChatEngineTheme {
@@ -42,6 +56,7 @@ class MainActivity : ComponentActivity() {
                     pwd.value = sharedPreferences.getString("SECRET", "").toString()
 
                    MyNav(sharedPreferences)
+//                    SubQuestion()
 
                     //WebSocketScreen()
 

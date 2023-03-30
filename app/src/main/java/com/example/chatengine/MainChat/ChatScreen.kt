@@ -2,10 +2,14 @@ package com.example.chatengine.HomeScreen
 
 import android.annotation.SuppressLint
 import android.content.Context
+import android.view.WindowInsetsController.BEHAVIOR_SHOW_TRANSIENT_BARS_BY_SWIPE
 import android.widget.Toast
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
+
+
+
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -23,6 +27,8 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.core.view.WindowCompat
+import androidx.core.view.WindowInsetsControllerCompat
 import com.example.chatengine.MainViewModel.MainViewModel
 import com.example.chatengine.R
 import com.example.chatengine.SendMsgs.SendMsgFunction
@@ -45,11 +51,14 @@ fun ChatScreen(mainViewModel: MainViewModel, webSocketManager: WebSocketManager,
     var result = remember {
         mutableStateOf("")
     }
-    var ctx:Context= LocalContext.current
+    var ctx: Context = LocalContext.current
 
     val messageListState = mainViewModel.messageList.collectAsState()
     val messageList = messageListState.value
-    
+
+    var searchQuery by remember { mutableStateOf("") }
+
+
     Text(text = messageList.size.toString())
 
 
@@ -63,7 +72,6 @@ fun ChatScreen(mainViewModel: MainViewModel, webSocketManager: WebSocketManager,
                 }else{
                 Text("user1") }
                 },
-
             navigationIcon = {
                 IconButton(onClick = { onClickGoBack()}) {
                     Icon(Icons.Default.ArrowBack, contentDescription = "Back")
@@ -123,7 +131,6 @@ fun ChatScreen(mainViewModel: MainViewModel, webSocketManager: WebSocketManager,
             }
         }
         }
-
 
         Spacer(modifier = Modifier.height(50.dp))
 
@@ -198,7 +205,6 @@ fun IsTypingHelpingFunction(
     })
 }
 
-    
     
 
 

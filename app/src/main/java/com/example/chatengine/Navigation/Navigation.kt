@@ -13,6 +13,7 @@ import com.example.chatengine.HomeScreen.HomeScreen
 import com.example.chatengine.HomeScreen.Login
 import com.example.chatengine.HomeScreen.SignUp
 import com.example.chatengine.MainViewModel.MainViewModel
+import com.example.chatengine.QuestionRoom.QuestionList
 import com.example.chatengine.WebSocket.WebSocketManager
 
 @Composable
@@ -35,7 +36,7 @@ fun MyNav(sharedPreferences: SharedPreferences,navController: NavHostController=
                     onChatClick={
                 navController.navigate("chatting_screen")
             }, mainViewModel,sharedPreferences
-            )
+            ) { navController.navigate("QuestionList") }
         }
         composable(route="sign_screen"){
             SignUp(
@@ -54,6 +55,10 @@ fun MyNav(sharedPreferences: SharedPreferences,navController: NavHostController=
                 }
             )
         }
+        composable(route="QuestionList"){
+            QuestionList()
+        }
+
     }
 
     

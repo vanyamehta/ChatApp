@@ -5,7 +5,6 @@ import android.annotation.SuppressLint
 import android.content.Context
 import android.content.Intent
 import android.content.SharedPreferences
-import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
@@ -14,9 +13,9 @@ import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.filled.ArrowBack
 
-import androidx.compose.material.icons.filled.ArrowForward
 import androidx.compose.material.icons.filled.ExitToApp
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
@@ -24,15 +23,11 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 
-import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 import com.example.chatengine.MainViewModel.MainViewModel
 import com.example.chatengine.MainActivity
 import com.example.chatengine.MainChat.getMsgFunction
-
-import com.example.chatengine.ui.theme.Purple200
-import com.example.chatengine.ui.theme.UserChat
+import com.example.chatengine.QuestionRoom.QuestionList
 
 
 @SuppressLint("UnusedMaterialScaffoldPaddingParameter")
@@ -40,7 +35,8 @@ import com.example.chatengine.ui.theme.UserChat
 fun HomeScreen(
     onChatClick: () -> Unit,
     mainViewModel: MainViewModel,
-    sharedPreferences: SharedPreferences
+    sharedPreferences: SharedPreferences,
+    onFloatButttonclick: () -> Unit
 ) {
     var ctx : Context = LocalContext.current
 
@@ -83,23 +79,28 @@ fun HomeScreen(
             )
         },
         floatingActionButton = {
-            MyFloatingActionButton(mainViewModel)
+            FloatingActionButton(
+                onClick = { onFloatButttonclick()},
+                content = { Icon(Icons.Filled.Add, "") }
+            )
+            //MyFloatingActionButton(mainViewModel)
         }
     ) {
         Box(
             modifier = Modifier
-                .fillMaxWidth().fillMaxHeight()
+                .fillMaxWidth()
+                .fillMaxHeight()
                 .padding(5.dp)
         ) {
             Column {
 
-                Text(
-                    text ="Welcome to Chat Engine",
-                    fontSize = 20.sp,
-                    fontWeight = FontWeight.Bold,
-                    color = Purple200,
-                )
-                Spacer(modifier = Modifier.height(10.dp))
+//                Text(
+//                    text ="Welcome to Chat Engine",
+//                    fontSize = 20.sp,
+//                    fontWeight = FontWeight.Bold,
+//                    color = Purple200,
+//                )
+//                Spacer(modifier = Modifier.height(10.dp))
                 LazyColumn(
                     modifier = Modifier
                         .fillMaxWidth()
@@ -114,19 +115,22 @@ fun HomeScreen(
                                 .fillMaxWidth()
                                 .height(100.dp)
                                 .padding(bottom = 5.dp)
-                                .background(Color.Black)
+                                //.background(Color.Black)
                                 .clickable(onClick = {
-//                                    mainViewModel.chatid = item.id
-//                                    mainViewModel.accesskey.value = item.access_key
+                                    mainViewModel.chatid.value = item.id
+                                    mainViewModel.accesskey.value = item.access_key
+                                    println("##########################################${mainViewModel.chatid.value}")
+                                    println("##########################################${mainViewModel.accesskey.value}")
                                     onChatClick()
                                     mainViewModel.isLoading.value = true
                                     getMsgFunction(ctx, mainViewModel)
                                 }),
-                            shape = RoundedCornerShape(10.dp)
+                            shape = RoundedCornerShape(10.dp),
+                            elevation = 10.dp
                         ) {
                             Column(
-                                modifier = Modifier
-                                    .background(UserChat),
+                                modifier = Modifier,
+                                    //.background(cardBg),
                                 horizontalAlignment = Alignment.Start
                             ) {
                                 Text(
@@ -134,17 +138,17 @@ fun HomeScreen(
                                     color= Color.Black,
                                     modifier = Modifier.padding(7.dp)
                                 )
-                                IconButton(onClick = {
-                                    //AddMember(ctx,)
-
-                                }) {
-                                    Icon(
-                                        Icons.Filled.ArrowForward, contentDescription ="useradd",
-                                        modifier = Modifier.fillMaxWidth()
-                                            .align(Alignment.End)
-                                            .size(40.dp)
-                                    )
-                                }
+//                                IconButton(onClick = {
+//                                    //AddMember(ctx,)
+//
+//                                }) {
+//                                    Icon(
+//                                        Icons.Filled.ArrowForward, contentDescription ="useradd",
+//                                        modifier = Modifier.fillMaxWidth()
+//                                            .align(Alignment.End)
+//                                            .size(40.dp)
+//                                    )
+//                                }
                             }
                         }
                     }

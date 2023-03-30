@@ -1,6 +1,8 @@
 plugins {
     id 'com.android.application'
     id 'org.jetbrains.kotlin.android'
+    id 'kotlin-android-extensions'
+    id 'kotlin-kapt'
 }
 
 android {
@@ -30,6 +32,8 @@ android {
         sourceCompatibility JavaVersion.VERSION_1_8
         targetCompatibility JavaVersion.VERSION_1_8
     }
+
+
     kotlinOptions {
         jvmTarget = '1.8'
     }
@@ -74,6 +78,18 @@ dependencies {
 
     //dialog button
     implementation "androidx.compose.material:material-icons-extended:$compose_ui_version"
+
+    // LiveData
+    implementation "androidx.lifecycle:lifecycle-livedata-ktx:2.6.0-alpha01"
+    implementation "androidx.compose.runtime:runtime-livedata:1.2.0"
+
+    //Room
+    implementation "androidx.room:room-ktx:2.4.3"
+    implementation "androidx.room:room-runtime:2.4.3"
+    kapt "androidx.room:room-compiler:2.4.3"
+
+    implementation "androidx.lifecycle:lifecycle-runtime-ktx:2.4.0"
+
 
 
 

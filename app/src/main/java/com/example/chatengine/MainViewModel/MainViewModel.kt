@@ -68,8 +68,8 @@ open class MainViewModel:ViewModel() {
         return roomapi
     }
 
-//     var chatid = mutableStateOf(-1)
-//     var accesskey= mutableStateOf("")
+     var chatid = mutableStateOf(0)
+     var accesskey= mutableStateOf("")
 
 
 //  for sending Msgs
@@ -77,31 +77,18 @@ open class MainViewModel:ViewModel() {
     var firsttext = SendMsgDataClass("")
     var textdata: SendMsgDataClass? by mutableStateOf(firsttext)
 //
-//    fun StartChat():SendMsgAPI{
-//        val msgApiService =SendMsgClass(user_name.value,password.value,chatid.value).sendMsgInstance()
-//        return msgApiService
-//    }
-
     fun StartChat():SendMsgAPI{
-        val msgApiService =SendMsgClass(user_name.value,password.value).sendMsgInstance()
+        val msgApiService =SendMsgClass(user_name.value,password.value,chatid.value).sendMsgInstance()
         return msgApiService
     }
-
-
 
 //   for getting all the msgs
     var msghis: MutableList<getMsgDataClass> by mutableStateOf(mutableListOf())
 
-//    fun msgHistory():ChattingAPI{
-//        val chatapi = MsgSending(user_name.value,password.value,chatid).seeChatInstance()
-//        return chatapi
-//    }
-
     fun msgHistory():getMsgAPI{
-        val chatapi = getMsgClass(user_name.value,password.value).getMsgInstance()
+        val chatapi = getMsgClass(user_name.value,password.value,chatid.value).getMsgInstance()
         return chatapi
     }
-
 
 // updating Msgs from websocket
     fun webList(msg: getMsgDataClass){
@@ -124,12 +111,6 @@ open class MainViewModel:ViewModel() {
 // for checking user is typing
     val istyping = mutableStateOf(false)
     val istypinguser= mutableStateOf("")
-
-
-//    fun IsUserTyping(): TypingAPI {
-//        val apiService= TypingClass(user_name.value,password.value,chatid).getTypingInstance()
-//        return apiService
-//    }
 
     fun IsUserTyping(): TypingAPI {
         val apiService= TypingClass(user_name.value,password.value,153483).getTypingInstance()

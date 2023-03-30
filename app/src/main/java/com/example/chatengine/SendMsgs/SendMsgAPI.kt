@@ -19,7 +19,7 @@ class SendMsgClass(
     username: String,
     password: String,
 
-    //chatid: Int,
+    val chatid: Int,
     //val chatid: Int,
 ){
     val username= username
@@ -40,7 +40,7 @@ class SendMsgClass(
             }
             .build()
         val chatAPI= Retrofit.Builder()
-            .baseUrl("https://api.chatengine.io/chats/153483/")
+            .baseUrl("https://api.chatengine.io/chats/$chatid/")
             .client(httpClient)
             .addConverterFactory(GsonConverterFactory.create())
             .build().create(SendMsgAPI::class.java)
