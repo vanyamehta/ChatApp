@@ -19,9 +19,7 @@ import com.example.chatengine.MainChat.*
 import com.example.chatengine.SendMsgs.SendMsgAPI
 import com.example.chatengine.SendMsgs.SendMsgClass
 import com.example.chatengine.SendMsgs.SendMsgDataClass
-import com.example.chatengine.addMember.AddMemberDataClass
-import com.example.chatengine.addMember.NewMemberAPI
-import com.example.chatengine.addMember.NewMemberClass
+
 import com.example.chatengine.typing.TypingAPI
 import com.example.chatengine.typing.TypingClass
 import kotlinx.coroutines.Dispatchers
@@ -51,15 +49,14 @@ open class MainViewModel:ViewModel() {
         return apiService
     }
 
-//   for creating a new room
-    var chat_name by mutableStateOf("")
-    var tempchat= CreateRoomDataClass(chat_name,false)
+    // create room
+    var Room by mutableStateOf("Admin")
+   var tempchat= CreateRoomDataClass("",false, listOf("Admin"))
     var newChatDetails : CreateRoomDataClass? by mutableStateOf(tempchat)
     fun CreateNewChat(): CreateRoomAPI {
         val chatapiSercice = CreateRoomClass(user_name.value,password.value).CreateRoomInstance()
         return chatapiSercice
     }
-
 
 //  for getting all the rooms
     var allmsgRooms :MutableList<getRoomDataClass> by mutableStateOf(mutableListOf())
@@ -100,13 +97,7 @@ open class MainViewModel:ViewModel() {
 
 
 //  for creating members
-    var NewMemberName by mutableStateOf("")
-    var newMember= AddMemberDataClass(NewMemberName)
-    var MemberData : AddMemberDataClass? by mutableStateOf(newMember)
-    fun memberData(): NewMemberAPI {
-        val memberapiservice = NewMemberClass (user_name.value,password.value,NewMemberName).memberInstance()
-        return memberapiservice
-    }
+
 
 // for checking user is typing
     val istyping = mutableStateOf(false)

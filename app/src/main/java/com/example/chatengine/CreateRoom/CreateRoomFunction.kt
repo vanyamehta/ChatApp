@@ -15,7 +15,7 @@ fun CreateRoomFunction(
     mainViewModel: MainViewModel
 ) {
     val UserCreateAPI = mainViewModel.CreateNewChat()
-    val Chat = CreateRoomDataClass(title.toString(), true)
+    val Chat = CreateRoomDataClass(mainViewModel.Room, true, listOf("Admin"))
     val call: Call<CreateRoomDataClass?>? = UserCreateAPI.createUser(Chat)
     call!!.enqueue(object : Callback<CreateRoomDataClass?> {
         override fun onResponse(call: Call<CreateRoomDataClass?>, response: Response<CreateRoomDataClass?>) {

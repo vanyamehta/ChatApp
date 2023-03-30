@@ -1,5 +1,6 @@
 package com.example.chatengine.QuestionRoom
 
+import android.content.Context
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 
@@ -12,18 +13,30 @@ import androidx.compose.runtime.*
 import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
+import com.example.chatengine.CreateRoom.CreateRoomFunction
+import com.example.chatengine.MainViewModel.MainViewModel
 
 
 @Composable
-fun QuestionList(questionViewModel: QuestionViewModel = viewModel()) {
+fun QuestionList(
+    questionViewModel: QuestionViewModel = viewModel(),
+    onChatWithAgentClick: () -> Unit,
+    mainViewModel: MainViewModel,
+) {
     val expandedQuestion = remember { mutableStateOf<Question?>(null) }
 
     val questions by questionViewModel.questions.observeAsState(emptyList())
+    var ctx: Context= LocalContext.current
+    var result = remember {
+        mutableStateOf("")
+    }
+    val title =mainViewModel.user_name
     
     LazyColumn(
         modifier = Modifier.padding(16.dp).height(650.dp)
@@ -55,9 +68,11 @@ fun QuestionList(questionViewModel: QuestionViewModel = viewModel()) {
 
             if (expandedQuestion.value == question) {
                 question.subQuestions.forEach { subQuestion ->
+                    mainViewModel.Room=subQuestion.question
                     SubQuestion(
                         subQuestion = subQuestion,
-                        onSubQuestionClick = { expandedQuestion.value = question }
+                        onSubQuestionClick = { expandedQuestion.value = question },
+                        mainViewModel
                     )
                 }
             }
@@ -65,7 +80,10 @@ fun QuestionList(questionViewModel: QuestionViewModel = viewModel()) {
     }
 
     Box (modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.BottomCenter){
-        Button(onClick = { /*TODO*/ }) {
+        Button(onClick = {
+            onChatWithAgentClick()
+            CreateRoomFunction(ctx,title.value, result,mainViewModel)
+        }) {
             Text(text = "Chat With Agent")
 
         }
@@ -79,11 +97,11 @@ fun QuestionList(questionViewModel: QuestionViewModel = viewModel()) {
 @Composable
 fun SubQuestion(
     subQuestion: SubQuestion,
-    onSubQuestionClick: () -> Unit
+    onSubQuestionClick: () -> Unit,
+    mainViewModel: MainViewModel
 ) {
     var expandedSubQuestion by remember { mutableStateOf(false) }
 
-//Text(text = subQuestion.subQuestions.toString())
     if(subQuestion.subQuestions?.isEmpty() == true){
         Row() {
             Icon(Icons.Default.ArrowForward, contentDescription = "Solution")
@@ -120,9 +138,11 @@ fun SubQuestion(
 
                 if (expandedSubQuestion) {
                     subQuestion.subQuestions?.forEach { nestedSubQuestion ->
+                        mainViewModel.Room=subQuestion.question
                         SubQuestion(
                             subQuestion = nestedSubQuestion,
-                            onSubQuestionClick = onSubQuestionClick
+                            onSubQuestionClick = onSubQuestionClick,
+                            mainViewModel
                         )
                     }
                 }

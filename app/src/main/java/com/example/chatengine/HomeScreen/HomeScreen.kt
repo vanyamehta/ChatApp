@@ -13,21 +13,21 @@ import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Add
-import androidx.compose.material.icons.filled.ArrowBack
+import androidx.compose.material.icons.filled.*
 
-import androidx.compose.material.icons.filled.ExitToApp
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.text.style.TextAlign
 
 import androidx.compose.ui.unit.dp
 import com.example.chatengine.MainViewModel.MainViewModel
 import com.example.chatengine.MainActivity
 import com.example.chatengine.MainChat.getMsgFunction
 import com.example.chatengine.QuestionRoom.QuestionList
+import com.example.chatengine.ui.theme.Purple700
 
 
 @SuppressLint("UnusedMaterialScaffoldPaddingParameter")
@@ -119,8 +119,6 @@ fun HomeScreen(
                                 .clickable(onClick = {
                                     mainViewModel.chatid.value = item.id
                                     mainViewModel.accesskey.value = item.access_key
-                                    println("##########################################${mainViewModel.chatid.value}")
-                                    println("##########################################${mainViewModel.accesskey.value}")
                                     onChatClick()
                                     mainViewModel.isLoading.value = true
                                     getMsgFunction(ctx, mainViewModel)
@@ -128,13 +126,20 @@ fun HomeScreen(
                             shape = RoundedCornerShape(10.dp),
                             elevation = 10.dp
                         ) {
-                            Column(
+                            Row(
                                 modifier = Modifier,
                                     //.background(cardBg),
-                                horizontalAlignment = Alignment.Start
+                                //horizontalAlignment = Alignment.Start
                             ) {
+                                Icon(
+                                    Icons.Default.SupervisedUserCircle,
+                                    contentDescription ="user",
+                                    modifier = Modifier.size(80.dp),
+                                    tint = Purple700
+                                )
+                                
                                 Text(
-                                    text = item.title,
+                                    text = item.title,textAlign = TextAlign.Center,
                                     color= Color.Black,
                                     modifier = Modifier.padding(7.dp)
                                 )

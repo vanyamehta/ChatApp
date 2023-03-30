@@ -14,12 +14,14 @@ import com.example.chatengine.HomeScreen.Login
 import com.example.chatengine.HomeScreen.SignUp
 import com.example.chatengine.MainViewModel.MainViewModel
 import com.example.chatengine.QuestionRoom.QuestionList
+import com.example.chatengine.QuestionRoom.QuestionViewModel
 import com.example.chatengine.WebSocket.WebSocketManager
 
 @Composable
 fun MyNav(sharedPreferences: SharedPreferences,navController: NavHostController= rememberNavController()) {
     val mainViewModel: MainViewModel = viewModel()
     val webSocketManager= WebSocketManager(mainViewModel)
+    val questionViewModel:QuestionViewModel= viewModel()
 
     NavHost(navController = navController, startDestination = "login_screen" ){
         composable(route="login_screen"){
@@ -56,7 +58,12 @@ fun MyNav(sharedPreferences: SharedPreferences,navController: NavHostController=
             )
         }
         composable(route="QuestionList"){
-            QuestionList()
+            QuestionList( questionViewModel,
+                onChatWithAgentClick = {
+                    navController.navigate("home_screen")
+                } , mainViewModel
+
+            )
         }
 
     }
