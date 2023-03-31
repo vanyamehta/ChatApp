@@ -81,7 +81,7 @@ fun HomeScreen(
         floatingActionButton = {
             FloatingActionButton(
                 onClick = { onFloatButttonclick()},
-                content = { Icon(Icons.Filled.Add, "") }
+                content = { Icon(Icons.Filled.Add, "") }, modifier = Modifier.navigationBarsPadding()
             )
 
         }

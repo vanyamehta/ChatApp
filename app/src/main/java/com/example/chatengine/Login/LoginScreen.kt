@@ -50,7 +50,7 @@ fun Login(
     val email = sharedPreferences.getString("USERNAME", "").toString()
     val secrett = sharedPreferences.getString("SECRET", "").toString()
 
-    println("*** $email")
+    //println("*** $email")
 
     if (email.isNotBlank()){
         mainViewModel.user_name.value = email
@@ -130,7 +130,7 @@ fun Login(
             Text(text = "Forgot Password")
 
         }
-        Column(horizontalAlignment = Alignment.CenterHorizontally) {
+        Column(horizontalAlignment = Alignment.CenterHorizontally, modifier = Modifier.navigationBarsPadding()) {
             Button(onClick = {
                 LoginFunction(ctx,userName.value,password.value, result,secret, { onNavigateToHome() },mainViewModel,sharedPreferences)
             }, modifier = Modifier.fillMaxWidth()) {

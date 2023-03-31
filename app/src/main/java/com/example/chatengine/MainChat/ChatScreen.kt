@@ -66,9 +66,14 @@ fun ChatScreen(mainViewModel: MainViewModel, webSocketManager: WebSocketManager,
         TopAppBar(
             title = {
                 if(mainViewModel.istyping.value&&mainViewModel.user_name.value!=mainViewModel.istypinguser.value){
-                    Text(text = " is typing")
-                    mainViewModel.starttyping()
-//                    isTYping=false
+                    if(mainViewModel.user_name.value=="Admin"){
+                        Text(text = "User is Typing")
+                        mainViewModel.starttyping()
+                    }else{
+                        Text(text = "Agent is Typing")
+                        mainViewModel.starttyping()
+                    }
+
                 }else{
                 Text("user1") }
                 },
@@ -83,7 +88,7 @@ fun ChatScreen(mainViewModel: MainViewModel, webSocketManager: WebSocketManager,
             LazyColumn(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .fillMaxHeight(0.89f),
+                    .fillMaxHeight(0.8f),
                 reverseLayout = true
             ){
                 itemsIndexed(mainViewModel.msghis.sortedByDescending { it.created }){ index, item ->
@@ -124,7 +129,7 @@ fun ChatScreen(mainViewModel: MainViewModel, webSocketManager: WebSocketManager,
 
             }
             Row(
-                modifier = Modifier.fillMaxSize(),
+                modifier = Modifier.fillMaxSize().navigationBarsPadding(),
                 verticalAlignment = Alignment.Bottom
             ) {
                 OutlinedTextField(
