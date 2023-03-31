@@ -15,6 +15,10 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.core.view.ViewCompat
+import androidx.core.view.WindowCompat
+import androidx.core.view.WindowInsetsCompat
+import androidx.core.view.updatePadding
 import androidx.lifecycle.lifecycleScope
 import com.example.chatengine.HomeScreen.HomeScreen
 import com.example.chatengine.Navigation.MyNav
@@ -32,6 +36,7 @@ class MainActivity : ComponentActivity() {
     lateinit var sharedPreferences: SharedPreferences
     val questionViewModel by viewModels<QuestionViewModel>()
     override fun onCreate(savedInstanceState: Bundle?) {
+        WindowCompat.setDecorFitsSystemWindows(window, false)
         lifecycleScope.launch {
             withContext(Dispatchers.IO){
                 QuestionListing(questionViewModel)
@@ -62,7 +67,11 @@ class MainActivity : ComponentActivity() {
 
                 }
             }
-        }
+            ViewCompat.setOnApplyWindowInsetsListener(findViewById(android.R.id.content)){ view, insets->
+                val bottom = insets.getInsets(WindowInsetsCompat.Type.ime()).bottom
+                view.updatePadding(bottom =bottom)
+                insets
+        }}
     }
 }
 

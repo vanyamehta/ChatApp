@@ -76,20 +76,14 @@ fun ChatScreen(mainViewModel: MainViewModel, webSocketManager: WebSocketManager,
                 IconButton(onClick = { onClickGoBack()}) {
                     Icon(Icons.Default.ArrowBack, contentDescription = "Back")
                 }
-            }
+            }, modifier = Modifier.statusBarsPadding()
         )
     }) {
-        Box(modifier = Modifier.fillMaxSize()) {
-            Image(
-                painter = painterResource(id = R.drawable.chatbg),
-                contentDescription = "Background Image",
-                contentScale = ContentScale.FillBounds,
-                modifier = Modifier.fillMaxSize()
-            )
+
             LazyColumn(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .height(600.dp),
+                    .fillMaxHeight(0.89f),
                 reverseLayout = true
             ){
                 itemsIndexed(mainViewModel.msghis.sortedByDescending { it.created }){ index, item ->
@@ -129,29 +123,19 @@ fun ChatScreen(mainViewModel: MainViewModel, webSocketManager: WebSocketManager,
                 }
 
             }
-        }
-        }
-
-        Spacer(modifier = Modifier.height(50.dp))
-
-        Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.BottomCenter) {
-
             Row(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .background(Color.White)
-                    .padding(horizontal = 20.dp, vertical = 8.dp), verticalAlignment = Alignment.Bottom
+                modifier = Modifier.fillMaxSize(),
+                verticalAlignment = Alignment.Bottom
             ) {
                 OutlinedTextField(
                     modifier = Modifier
-                        .fillMaxWidth(0.8f)
-                        .fillMaxHeight(0.08f)
+
                     ,
                     value = chat ,
                     onValueChange ={
                         chat=it
                         IsTypingHelpingFunction(ctx,mainViewModel)
-                                   },
+                    },
                     shape = RoundedCornerShape(10.dp)
                 )
 
@@ -166,8 +150,9 @@ fun ChatScreen(mainViewModel: MainViewModel, webSocketManager: WebSocketManager,
                         Purple200 )
                 }
             }
-
         }
+
+
     if(mainViewModel.isLoading.value==true){
         LoadingView()
     }

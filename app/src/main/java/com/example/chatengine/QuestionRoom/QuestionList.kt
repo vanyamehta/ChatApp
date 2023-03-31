@@ -39,7 +39,7 @@ fun QuestionList(
     val title =mainViewModel.user_name
     
     LazyColumn(
-        modifier = Modifier.padding(16.dp).height(650.dp)
+        modifier = Modifier.padding(16.dp).fillMaxHeight(0.9f).statusBarsPadding()
     ) {
         items(questions) { question ->
 //            if(question.subQuestions==null) {
@@ -79,7 +79,7 @@ fun QuestionList(
         }
     }
 
-    Box (modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.BottomCenter){
+    Box (modifier = Modifier.fillMaxSize().navigationBarsPadding(), contentAlignment = Alignment.BottomCenter){
         Button(onClick = {
             onChatWithAgentClick()
             CreateRoomFunction(ctx,title.value, result,mainViewModel)

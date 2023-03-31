@@ -75,7 +75,7 @@ fun HomeScreen(
                     }) {
                         Icon(Icons.Default.ExitToApp, contentDescription = "LogOut")
                     }
-                }
+                }, modifier = Modifier.statusBarsPadding()
             )
         },
         floatingActionButton = {
@@ -83,7 +83,7 @@ fun HomeScreen(
                 onClick = { onFloatButttonclick()},
                 content = { Icon(Icons.Filled.Add, "") }
             )
-            //MyFloatingActionButton(mainViewModel)
+
         }
     ) {
         Box(
