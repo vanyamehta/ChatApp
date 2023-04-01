@@ -22,7 +22,7 @@ fun SignUpFunction(
 ) {
 
     var url = "https://api.chatengine.io/"
-    val privateKey = "9850c9e8-443a-46b4-bb69-42806efce470"
+    val privateKey = "2780a060-d4a1-44ef-8aa8-4e9c6e1d0635"
     val headerKey = "PRIVATE-KEY"
 
     val loggingInterceptor = HttpLoggingInterceptor()
