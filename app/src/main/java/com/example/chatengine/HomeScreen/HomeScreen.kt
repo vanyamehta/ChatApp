@@ -30,7 +30,7 @@ import com.example.chatengine.QuestionRoom.QuestionList
 import com.example.chatengine.ui.theme.Purple700
 
 
-@SuppressLint("UnusedMaterialScaffoldPaddingParameter")
+@SuppressLint("UnusedMaterialScaffoldPaddingParameter", "SuspiciousIndentation")
 @Composable
 fun HomeScreen(
     onChatClick: () -> Unit,
@@ -42,6 +42,12 @@ fun HomeScreen(
 
     getAllRooms(ctx,mainViewModel)
     val editor: SharedPreferences.Editor = sharedPreferences.edit()
+
+        getAllRooms(ctx, mainViewModel)
+        editor.putString("USERNAME", mainViewModel.user_name.value)
+        editor.putString("SECRET", mainViewModel.password.value)
+        editor.apply()
+
 
     var result = remember {
         mutableStateOf("")

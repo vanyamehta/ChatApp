@@ -22,6 +22,7 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
@@ -37,17 +38,9 @@ fun Login(
     sharedPreferences: SharedPreferences,
     onsignUpClick: () -> Unit
 ) {
-    var userName = mainViewModel.user_name
 
-    var password = mainViewModel.password
-    var secret = remember {
-        mutableStateOf("")
-    }
-    var result = remember {
-        mutableStateOf("")
-    }
 
-    val ctx: Context = LocalContext.current
+
 
     val email = sharedPreferences.getString("USERNAME", "").toString()
     val secrett = sharedPreferences.getString("SECRET", "").toString()
@@ -57,9 +50,27 @@ fun Login(
     if (email.isNotBlank()){
         mainViewModel.user_name.value = email
         mainViewModel.password.value = secrett
-        LoginFunction(ctx,email,secrett,result,secret,onNavigateToHome,mainViewModel,sharedPreferences)
+//        HomeScreen(onChatClick = { }, mainViewModel =mainViewModel , sharedPreferences =  sharedPreferences, onFloatButttonclick = { })
+        onNavigateToHome()
     }
     else {
+        LoginScreen(onNavigateToHome,mainViewModel,sharedPreferences,onsignUpClick)
+
+}}
+
+@Composable
+fun LoginScreen( onNavigateToHome: () -> Unit,mainViewModel:MainViewModel,sharedPreferences: SharedPreferences,onsignUpClick: () -> Unit) {
+    val ctx: Context = LocalContext.current
+
+    var userName = mainViewModel.user_name
+
+    var password = mainViewModel.password
+    var secret = remember {
+        mutableStateOf("")
+    }
+    var result = remember {
+        mutableStateOf("")
+    }
     Box(modifier = Modifier.fillMaxSize()) {
         Image(
             painter = painterResource(R.drawable.th),
@@ -101,29 +112,31 @@ fun Login(
         }
 
         OutlinedTextField(
-            value = userName.value,
-            onValueChange = { userName.value = it },
-            placeholder = { Text(text = "Username") },
             modifier = Modifier
+                .testTag("Enter your Username")
                 .padding(16.dp)
                 .fillMaxWidth(),
+            value = userName.value,
+            onValueChange = { userName.value = it },
+            placeholder = { Text(text = "Enter your Username") },
             textStyle = TextStyle(color = Color.Black, fontSize = 15.sp),
             leadingIcon = {
-                Icon(Icons.Default.Face, contentDescription = "Username")
+                Icon(Icons.Default.Face, contentDescription = "Enter your Username")
             },
             singleLine = true,
         )
 
         OutlinedTextField(
-            value = password.value,
-            onValueChange = { password.value = it },
-            placeholder = { Text(text = "password") },
             modifier = Modifier
                 .padding(16.dp)
-                .fillMaxWidth(),
+                .fillMaxWidth()
+                .testTag("Password"),
+            value = password.value,
+            onValueChange = { password.value = it },
+            placeholder = { Text(text = "Password") },
             textStyle = TextStyle(color = Color.Black, fontSize = 15.sp),
             leadingIcon = {
-                Icon(Icons.Default.Lock, contentDescription = "password")
+                Icon(Icons.Default.Lock, contentDescription = "Password")
             },
             singleLine = true,
         )
@@ -136,7 +149,7 @@ fun Login(
         Column(horizontalAlignment = Alignment.CenterHorizontally, modifier = Modifier.navigationBarsPadding()) {
             Button(onClick = {
                 LoginFunction(ctx,userName.value,password.value, result,secret, { onNavigateToHome() },mainViewModel,sharedPreferences)
-            }, modifier = Modifier.fillMaxWidth()) {
+            }, modifier = Modifier.fillMaxWidth().testTag("Login_Button")) {
                 Text(text = "Login")
             }
 
@@ -146,4 +159,4 @@ fun Login(
         }
 
     }
-}}
+}

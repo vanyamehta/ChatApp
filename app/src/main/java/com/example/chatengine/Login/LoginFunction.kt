@@ -20,8 +20,6 @@ fun LoginFunction(
     viewModel: MainViewModel,
     sharedPreferences: SharedPreferences
 ) {
-
-    val editor: SharedPreferences.Editor = sharedPreferences.edit()
     val GetAPI= viewModel.AuthenticateUser()
     val call: Call<LoginDataClass?>? = GetAPI.getUser()
     call!!.enqueue(object : Callback<LoginDataClass?> {
@@ -35,12 +33,6 @@ fun LoginFunction(
             viewModel.UserData=model
             if(model?.is_authenticated==true){
                 onNavigateToHome()
-            }
-            if (response.isSuccessful){
-                getAllRooms(ctx, viewModel)
-                editor.putString("USERNAME", username)
-                editor.putString("SECRET", password)
-                editor.apply()
             }
         }
 

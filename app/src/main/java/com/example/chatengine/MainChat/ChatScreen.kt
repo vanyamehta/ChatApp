@@ -68,12 +68,12 @@ fun ChatScreen(mainViewModel: MainViewModel, webSocketManager: WebSocketManager,
                 if(mainViewModel.istyping.value&&mainViewModel.user_name.value!=mainViewModel.istypinguser.value){
                     if(mainViewModel.user_name.value=="Admin"){
                         Text(text = "User is Typing")
-                        mainViewModel.starttyping()
                     }else{
                         Text(text = "Agent is Typing")
-                        mainViewModel.starttyping()
+//                        mainViewModel.starttyping()
                     }
 
+                    mainViewModel.starttyping()
                 }else{
                 Text("user1") }
                 },
