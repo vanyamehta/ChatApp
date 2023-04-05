@@ -34,6 +34,7 @@ fun LoginFunction(
             if(model?.is_authenticated==true){
                 onNavigateToHome()
             }
+
         }
 
         override fun onFailure(call: Call<LoginDataClass?>, t: Throwable) {

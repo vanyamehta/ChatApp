@@ -104,7 +104,7 @@ open class MainViewModel:ViewModel() {
     val istypinguser= mutableStateOf("")
 
     fun IsUserTyping(): TypingAPI {
-        val apiService= TypingClass(user_name.value,password.value,153483).getTypingInstance()
+        val apiService= TypingClass(user_name.value,password.value,chatid.value).getTypingInstance()
         return apiService
     }
     fun starttyping(){
